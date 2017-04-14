@@ -25,8 +25,9 @@ public class FillArrayRandomDemo {
     
     public static void printArrayList(ArrayList<?> arr){
         for(int i = 0; i < arr.size(); i++){
-            System.out.print(arr.get(i) + "\n");
+            System.out.print(arr.get(i) + " ");
         }
+        System.out.println();
     }
     
     public static void main(String[] args){
@@ -46,9 +47,9 @@ public class FillArrayRandomDemo {
         ArrayList<String> strArr = new ArrayList<>();
         ArrayList<Random> ranArr = new ArrayList<>();
         
-        fillArrayListRandom(intArr, new RandInteger(1000), 25);
-        fillArrayListRandom(strArr, new RandString(8), 25);
-        fillArrayListRandom(ranArr, new RandRandom(), 25);
+        fillArrayListRandom(intArr, new RandInteger(1000), 10);
+        fillArrayListRandom(strArr, new RandString(8), 10);
+        fillArrayListRandom(ranArr, new RandRandom(), 10);
         
         System.out.println("\nList of random Integers:");
         printArrayList(intArr);
