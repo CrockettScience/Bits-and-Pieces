@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
@@ -25,7 +26,7 @@ import javax.swing.JFileChooser;
  */
 public class NeuralNetwork {
     public static void main(String[] args) {
-        HMMNetwork<String> ai = null;
+        HiddenMerkovModel<String> ai = null;
         JFileChooser jfc = new JFileChooser();
         jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         
@@ -34,7 +35,7 @@ public class NeuralNetwork {
         }
         
         try{
-            ai = new HMMNetwork(processFile(jfc.getSelectedFile(), "[]"), "[]");
+            ai = new HiddenMerkovModel(processFile(jfc.getSelectedFile(), "[]"), "[]");
             
         }catch(FileNotFoundException e) {
             System.out.println("Error: File not found. " + e);
@@ -61,9 +62,16 @@ public class NeuralNetwork {
 
                 Iterator thought = ai.getThought(lastWord);
 
-                thought.next();
+                try{
+                    thought.next();
+                    
+                }catch(NoSuchElementException e){
+                    System.out.println("I don't know that word, " + lastWord);
+                
+                }
+                
                 while(thought.hasNext()) {
-                    System.out.print(thought.next() + " ");
+                        System.out.print(thought.next() + " ");
                 }
                 System.out.println();
             }

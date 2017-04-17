@@ -14,16 +14,17 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
  *
  * @author Jonathan Crockett
  */
-public class HMMNetwork<T> {
+public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
     private HashMap<T, Neuron<T>> neurons = new HashMap<>();
     
-    public HMMNetwork(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
+    public HiddenMerkovModel(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
         learn(knowledgeSource, thoughtDelimiter);
     }
     
@@ -87,7 +88,7 @@ public class HMMNetwork<T> {
 
         public T next() {
             if(current == null)
-                return null;
+                throw new NoSuchElementException();
 
             T data = current.data;
             current = current.AdvanceThought(rand);
