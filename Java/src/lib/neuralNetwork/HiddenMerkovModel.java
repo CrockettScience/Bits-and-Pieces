@@ -11,7 +11,6 @@
 package lib.neuralNetwork;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,9 +21,19 @@ import java.util.Random;
  * @author Jonathan Crockett
  */
 public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
-    private HashMap<T, Neuron<T>> neurons = new HashMap<>();
+    private static final int DEFAULT_TABLE_SIZE = 101;
+    
+    private int currentSize = 0;
+    private Neuron<T>[] array;  
+    
     
     public HiddenMerkovModel(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
+        allocateArray(DEFAULT_TABLE_SIZE);
+        
+        currentSize = 0;
+        for( int i = 0; i < array.length; i++ )
+            array[ i ] = null;
+        
         learn(knowledgeSource, thoughtDelimiter);
     }
     
@@ -36,7 +45,7 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
             return;
         
         Neuron<T> last = getNeuron(itr.next());
-        putNeuron(last);
+        add(last);
         
         if(!itr.hasNext())
             return;
@@ -46,31 +55,42 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
             
             if(!current.data.equals(thoughtDelimiter)) {
                 last.addConnection(current);
-                putNeuron(current);
+                add(current);
                 last = current;
             }
             else {
                 last.addConnection(null);
                 if(itr.hasNext()) {
                     last = getNeuron(itr.next());
-                    putNeuron(last);
+                    add(last);
                 }
             }
-            
         }
     }
     
     public Iterator getThought(T initial) {
-        return (Iterator) new Thought(neurons.get(initial));
+        Neuron<T> neuron = new Neuron<>(initial);
+        int pos = findPos(neuron);
+        return (Iterator) new Thought(array[pos]);
     }
     
-    private Neuron getNeuron(T key) {
-        return neurons.containsKey(key) ? neurons.get(key) : new Neuron(key);
+    private Neuron<T> getNeuron(T data) {
+        Neuron<T> neuron = new Neuron<>(data);
+        int pos = findPos(neuron);
+        return array[pos] != null ? array[pos] : neuron;
     }
     
-    private void putNeuron(Neuron<T> neuron) {
-        if(!neurons.containsKey(neuron.data))
-            neurons.put(neuron.data, neuron);
+    private void add(Neuron<T> neuron) {
+        int currentPos = findPos(neuron);
+        
+        if(array[currentPos] != null)
+            return;//no dupes, don't add
+        
+        array[ currentPos ] = neuron;
+        currentSize++;
+        
+        if( currentSize > array.length / 2 )        
+            rehash( );                
     }
     
     private class Thought<T> implements Iterator<T> {
@@ -97,4 +117,59 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
 
     }
     
+    private int findPos(Neuron<T> neuron){
+        int offset = 1;
+        int currentPos = Math.abs(neuron.hashCode() % array.length);
+
+        while(array[currentPos] != null){
+            if(neuron.equals(array[currentPos]))   
+                break;
+            
+            currentPos += offset;                  // Compute ith probe
+            offset += 2;
+            
+            if(currentPos >= array.length)       // Implement the mod
+                currentPos -= array.length;
+        }
+        return currentPos;
+    }
+    
+    private void rehash(){
+        Neuron<T>[] oldArray = array;
+        
+        allocateArray(nextPrime(4 * currentSize ));
+        currentSize = 0;
+        
+        for( int i = 0; i < oldArray.length; i++ )
+            if(oldArray[i] != null)
+                add(oldArray[i]);
+    }
+    
+    private static int nextPrime(int n){
+        if(n % 2 == 0)
+            n++;
+
+        for( ;!isPrime(n) ;)
+            n += 2;
+
+        return n;
+    }
+    
+    private static boolean isPrime( int n ){
+        if(n == 2 || n == 3)
+            return true;
+
+        if(n == 1 || n % 2 == 0)
+            return false;
+
+        for(int i = 3; i * i <= n; i += 2)
+            if(n % i == 0)
+                return false;
+
+        return true;
+    }
+    
+    private void allocateArray(int arraySize){
+        array = new Neuron[ nextPrime(arraySize)];
+    }
 }

@@ -45,7 +45,7 @@ public class NeuralNetwork {
         Scanner in = new Scanner(System.in);
         boolean running = true;
         while(running) {
-            System.out.println("Type part of a sentence and press enter and the network to try to finish your sentence:");
+            System.out.println("Type part of a sentence and press enter and the network will try to finish your sentence, or type \"quit\" to quit:");
             String line = in.nextLine();
             
             if(line.equals("quit"))
@@ -66,7 +66,7 @@ public class NeuralNetwork {
                     thought.next();
                     
                 }catch(NoSuchElementException e){
-                    System.out.println("I don't know that word, " + lastWord);
+                    System.out.println("...sorry, I don't know that word");
                 
                 }
                 
