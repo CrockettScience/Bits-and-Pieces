@@ -29,8 +29,8 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
         allocateArray(DEFAULT_TABLE_SIZE);
         
         currentSize = 0;
-        for( int i = 0; i < neurons.length; i++ )
-            neurons[ i ] = null;
+        for(int i = 0; i < neurons.length; i++)
+            neurons[i] = null;
         
         learn(knowledgeSource, thoughtDelimiter);
     }
@@ -84,10 +84,10 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
         if(neurons[currentPos] != null)
             return;//no dupes, don't add
         
-        neurons[ currentPos ] = neuron;
+        neurons[currentPos] = neuron;
         currentSize++;
         
-        if( currentSize > neurons.length / 2 )        
+        if(currentSize > neurons.length / 2)        
             rehash( );                
     }
     
@@ -111,10 +111,10 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
     private void rehash(){
         Neuron<T>[] oldArray = neurons;
         
-        allocateArray(nextPrime(4 * currentSize ));
+        allocateArray(nextPrime(4 * currentSize));
         currentSize = 0;
         
-        for( int i = 0; i < oldArray.length; i++ )
+        for(int i = 0; i < oldArray.length; i++)
             if(oldArray[i] != null)
                 add(oldArray[i]);
     }
