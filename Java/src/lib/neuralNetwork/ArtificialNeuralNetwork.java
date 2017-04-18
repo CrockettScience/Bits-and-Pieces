@@ -19,7 +19,6 @@ import java.util.List;
  * @author Jonathan Crockett
  */
 public interface ArtificialNeuralNetwork<T> {
-    void learn(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException;
-    
-    Iterator getThought(T initial);
+    public void learn(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException;
+    public Thought<T> getThought(T initial);
 }

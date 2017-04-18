@@ -26,7 +26,8 @@ import javax.swing.JFileChooser;
  */
 public class NeuralNetwork {
     public static void main(String[] args) {
-        HiddenMerkovModel<String> ai = null;
+        
+        ArtificialNeuralNetwork<String> ai = null;
         JFileChooser jfc = new JFileChooser();
         jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         
@@ -35,7 +36,7 @@ public class NeuralNetwork {
         }
         
         try{
-            ai = new HiddenMerkovModel(processFile(jfc.getSelectedFile(), "[]"), "[]");
+            ai = new HiddenMarkovModel(processFile(jfc.getSelectedFile(), "[]"), "[]");
             
         }catch(FileNotFoundException e) {
             System.out.println("Error: File not found. " + e);
@@ -60,7 +61,7 @@ public class NeuralNetwork {
                     System.out.print(lastWord + " ");
                 }
 
-                Iterator thought = ai.getThought(lastWord);
+                Thought thought = ai.getThought(lastWord);
 
                 try{
                     thought.next();

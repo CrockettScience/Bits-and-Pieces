@@ -20,19 +20,17 @@ import java.util.Random;
  *
  * @author Jonathan Crockett
  */
-public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
+public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
     private static final int DEFAULT_TABLE_SIZE = 101;
-    
     private int currentSize = 0;
-    private Neuron<T>[] array;  
+    private Neuron<T>[] neurons;  
     
-    
-    public HiddenMerkovModel(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
+    public HiddenMarkovModel(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
         allocateArray(DEFAULT_TABLE_SIZE);
         
         currentSize = 0;
-        for( int i = 0; i < array.length; i++ )
-            array[ i ] = null;
+        for( int i = 0; i < neurons.length; i++ )
+            neurons[ i ] = null;
         
         learn(knowledgeSource, thoughtDelimiter);
     }
@@ -68,74 +66,50 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
         }
     }
     
-    public Iterator getThought(T initial) {
+    public Thought<T> getThought(T initial) {
         Neuron<T> neuron = new Neuron<>(initial);
         int pos = findPos(neuron);
-        return (Iterator) new Thought(array[pos]);
+        return new Thought(neurons[pos]);
     }
     
     private Neuron<T> getNeuron(T data) {
         Neuron<T> neuron = new Neuron<>(data);
         int pos = findPos(neuron);
-        return array[pos] != null ? array[pos] : neuron;
+        return neurons[pos] != null ? neurons[pos] : neuron;
     }
     
     private void add(Neuron<T> neuron) {
         int currentPos = findPos(neuron);
         
-        if(array[currentPos] != null)
+        if(neurons[currentPos] != null)
             return;//no dupes, don't add
         
-        array[ currentPos ] = neuron;
+        neurons[ currentPos ] = neuron;
         currentSize++;
         
-        if( currentSize > array.length / 2 )        
+        if( currentSize > neurons.length / 2 )        
             rehash( );                
-    }
-    
-    private class Thought<T> implements Iterator<T> {
-        Neuron<T> current;
-        Random rand = new Random();
-
-        public Thought(Neuron<T> startThought) {
-            current = startThought;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        public T next() {
-            if(current == null)
-                throw new NoSuchElementException();
-
-            T data = current.data;
-            current = current.AdvanceThought(rand);
-            return data;
-        }
-
     }
     
     private int findPos(Neuron<T> neuron){
         int offset = 1;
-        int currentPos = Math.abs(neuron.hashCode() % array.length);
+        int currentPos = Math.abs(neuron.hashCode() % neurons.length);
 
-        while(array[currentPos] != null){
-            if(neuron.equals(array[currentPos]))   
+        while(neurons[currentPos] != null){
+            if(neuron.equals(neurons[currentPos]))   
                 break;
             
-            currentPos += offset;                  // Compute ith probe
+            currentPos += offset;
             offset += 2;
             
-            if(currentPos >= array.length)       // Implement the mod
-                currentPos -= array.length;
+            if(currentPos >= neurons.length)
+                currentPos -= neurons.length;
         }
         return currentPos;
     }
     
     private void rehash(){
-        Neuron<T>[] oldArray = array;
+        Neuron<T>[] oldArray = neurons;
         
         allocateArray(nextPrime(4 * currentSize ));
         currentSize = 0;
@@ -155,7 +129,7 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
         return n;
     }
     
-    private static boolean isPrime( int n ){
+    private static boolean isPrime(int n){
         if(n == 2 || n == 3)
             return true;
 
@@ -170,6 +144,6 @@ public class HiddenMerkovModel<T> implements ArtificialNeuralNetwork<T> {
     }
     
     private void allocateArray(int arraySize){
-        array = new Neuron[ nextPrime(arraySize)];
+        neurons = new Neuron[nextPrime(arraySize)];
     }
 }
