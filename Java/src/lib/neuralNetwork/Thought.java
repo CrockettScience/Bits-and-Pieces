@@ -16,7 +16,6 @@ import java.util.Random;
 /**
  *
  * @author Jonathan Crockett
- * @param <T>
  */
 public class Thought<T> {
     Neuron<T> current;

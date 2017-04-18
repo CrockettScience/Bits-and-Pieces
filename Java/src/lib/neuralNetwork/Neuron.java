@@ -11,7 +11,6 @@
 package lib.neuralNetwork;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -29,6 +28,7 @@ class Neuron<T> {
     Neuron AdvanceThought(Random rand) {
         if(axions.isEmpty())
             return null;
+        
         return axions.get(rand.nextInt(axions.size())).synapse;
     }
     
@@ -42,8 +42,8 @@ class Neuron<T> {
                 for(int i = 0; i < a.strength; i++)
                     axions.add(a);
                     
-                a.strength = a.strength << 1;
-                return; 
+                a.strength += 1;
+                return;
             }
         }
         

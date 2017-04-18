@@ -16,9 +16,12 @@ package lib.neuralNetwork;
  */
 class Axion{
     Neuron synapse = null;
-    int strength = 0;
+    int strength = 1;
 
     public boolean equals(Object obj) {
+        if(synapse == obj)
+            return true;
+        
         if(!(obj instanceof Axion))
             return false;
         Axion axion = (Axion) obj;

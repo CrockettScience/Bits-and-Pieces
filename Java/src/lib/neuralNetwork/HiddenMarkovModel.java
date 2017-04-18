@@ -25,7 +25,7 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
     private int currentSize = 0;
     private Neuron<T>[] neurons;  
     
-    public HiddenMarkovModel(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
+    public HiddenMarkovModel(List<T> knowledgeSource, T thoughtDelimiter) throws FileNotFoundException {
         allocateArray(DEFAULT_TABLE_SIZE);
         
         currentSize = 0;
@@ -35,7 +35,7 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
         learn(knowledgeSource, thoughtDelimiter);
     }
     
-    public final void learn(List<T> knowledgeSource, String thoughtDelimiter) throws FileNotFoundException {
+    public final void learn(List<T> knowledgeSource, T thoughtDelimiter) throws FileNotFoundException {
         
         Iterator<T> itr = knowledgeSource.iterator();
         
@@ -45,23 +45,30 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
         Neuron<T> last = getNeuron(itr.next());
         add(last);
         
-        if(!itr.hasNext())
-            return;
-        
         while(itr.hasNext()) {
             Neuron current = getNeuron(itr.next());
             
-            if(!current.data.equals(thoughtDelimiter)) {
+            if(current.data.equals(thoughtDelimiter)) {
+                System.out.println("Reached delimiter; last connection: " + last.data + "\nSearching for next stream...");
+                last.addConnection(null);
+                
+                //keep scrubbing through until we find the next valid token
+                while(itr.hasNext()) {
+                    T token = itr.next();
+                    if(!token.equals(thoughtDelimiter)) {
+                        System.out.println("Found next stream; " + token + "; beginning neural connection process");
+                        last = getNeuron(token);
+                        add(last);
+                        break;
+                    }
+                }
+            }
+            
+            else {
+                System.out.println("Connecting " + last.data + " to " + current.data + "...");
                 last.addConnection(current);
                 add(current);
                 last = current;
-            }
-            else {
-                last.addConnection(null);
-                if(itr.hasNext()) {
-                    last = getNeuron(itr.next());
-                    add(last);
-                }
             }
         }
     }
@@ -78,7 +85,7 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
         return neurons[pos] != null ? neurons[pos] : neuron;
     }
     
-    private void add(Neuron<T> neuron) {
+    private void add(Neuron<T> neuron) {        
         int currentPos = findPos(neuron);
         
         if(neurons[currentPos] != null)
