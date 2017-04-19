@@ -14,9 +14,9 @@ Also, please chack out my other repositories on GitHub:
 
 https://github.com/CrockettScience/DungeonGeneratorPrototype.git
 
-Dungeon Generator Prototype for my IOS Development Class Project
+    Dungeon Generator Prototype for my IOS Development Class Project
 
 
 https://github.com/CrockettScience/RocketSauce
 
-A sprite based 2d game engine overhauled out of LibGDX.
+    A sprite based 2d game engine overhauled out of LibGDX.
