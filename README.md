@@ -8,3 +8,14 @@ Email: johncrockett15@gmail.com
 Phone: (805) 835-5943
 
 LinkedIn: https://www.linkedin.com/in/jonathan-crockett-60b9b169/
+
+
+Also, please chack out my other repositories on GitHub:
+
+    Dungeon Generator Prototype for my IOS Development Class Project:
+
+https://github.com/CrockettScience/DungeonGeneratorPrototype.git
+
+    A sprite based 2d game engine overhauled out of LibGDX:
+
+https://github.com/CrockettScience/RocketSauce
