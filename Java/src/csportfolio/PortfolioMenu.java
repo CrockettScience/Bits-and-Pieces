@@ -11,6 +11,7 @@
 package csportfolio;
 import lib.fillListRandom.FillArrayRandomDemo;
 import lib.menuSystem.Menu;
+import lib.neuralNetwork.NeuralNetwork;
 import lib.saveableStructures.test.SaveableTest;
 
 /**
@@ -24,10 +25,11 @@ public class PortfolioMenu extends Menu{
     }
 
     public Node assembleNodes() {
-        Node main = new Node("Welcome to Jonathan Crockett's Portfolio. Please type in one of the numbers below and press enter to read about the corresponding package from the list:");
+        Node main = new Node("Welcome to Jonathan Crockett's Portfolio. Please type in one of the numbers below\n"
+                + "and press enter to read about the corresponding package from the list:");
         
         Action<PortfolioMenu> fillRand = (menu) -> {
-            FillArrayRandomDemo.main(new String[0]);
+            FillArrayRandomDemo.main(null);
             menu.setCurrentNode(main);
         };
         
@@ -37,7 +39,7 @@ public class PortfolioMenu extends Menu{
                              + "Nodes are simple objects that contain a number of entries. It's constructor takes\n"
                              + "an instance of String representing the prompt that comes right before the list of\n"
                              + "options in the output. Entries are objects that represent the user's possible choices.\n"
-                             + "It's constructor requires instance of String to represent a short of what\n"
+                             + "It's constructor requires instance of String to represent a short description of what\n"
                              + "the entry does once selected and a reference to an instance of an object that implements the\n"
                              + "Action interface (This will be the instance whose execute() method is called when the user\n"
                              + "wants to select this entry). And actions are objects that implement\n"
@@ -48,19 +50,26 @@ public class PortfolioMenu extends Menu{
         };
         
         Action<PortfolioMenu> saveable = (menu) -> {
-            SaveableTest.main(new String[0]);
+            SaveableTest.main(null);
             menu.setCurrentNode(main);
         };
         
-        Entry a = new Entry("Package fillListRandom", fillRand);
-        Entry b = new Entry("Package menuSystem", menuSys);
-        Entry c = new Entry("Package saveableStructures", saveable);
-        Entry d = new Entry("Exit", new ActionQuit<>());
+        Action<PortfolioMenu> neural = (menu) -> {
+            NeuralNetwork.main(null);
+            menu.setCurrentNode(main);
+        };
+        
+        Entry a = new Entry("Package fillListrandom", fillRand);
+        Entry b = new Entry("Package menusystem", menuSys);
+        Entry c = new Entry("Package saveablestructures", saveable);
+        Entry d = new Entry("Package neuralnetwork", neural);
+        Entry z = new Entry("Exit", new ActionQuit<>());
         
         main.add(a);
         main.add(b);
         main.add(c);
         main.add(d);
+        main.add(z);
         
         return main;
     }

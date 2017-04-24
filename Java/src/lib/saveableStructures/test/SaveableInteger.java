@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package lib.saveableStructures.test;
-import lib.saveableStructures.*;
 
+import lib.saveableStructures.*;
 public class SaveableInteger implements SaveableElement<Chunk32Bit> {
     
     public int value;

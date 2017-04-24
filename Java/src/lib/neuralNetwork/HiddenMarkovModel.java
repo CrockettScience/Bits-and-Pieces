@@ -13,8 +13,6 @@ package lib.neuralNetwork;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
 
 /**
  *
@@ -49,14 +47,14 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
             Neuron current = getNeuron(itr.next());
             
             if(current.data.equals(thoughtDelimiter)) {
-                System.out.println("Reached delimiter; last connection: " + last.data + "\nSearching for next stream...");
+                System.out.println("Reached delimiter; last connection: '" + last.data + "'\nSearching for next stream...");
                 last.addConnection(null);
                 
                 //keep scrubbing through until we find the next valid token
                 while(itr.hasNext()) {
                     T token = itr.next();
                     if(!token.equals(thoughtDelimiter)) {
-                        System.out.println("Found next stream; " + token + "; beginning neural connection process");
+                        System.out.println("Found next stream; '" + token + "'; beginning neural connection process");
                         last = getNeuron(token);
                         add(last);
                         break;
@@ -65,7 +63,7 @@ public class HiddenMarkovModel<T> implements ArtificialNeuralNetwork<T> {
             }
             
             else {
-                System.out.println("Connecting " + last.data + " to " + current.data + "...");
+                System.out.println("Connecting '" + last.data + "' to '" + current.data + "'...");
                 last.addConnection(current);
                 add(current);
                 last = current;

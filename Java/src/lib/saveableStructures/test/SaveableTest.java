@@ -1,12 +1,12 @@
 package lib.saveableStructures.test;
 
-import lib.saveableStructures.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Random;
 import lib.fillListRandom.RandValue;
 import lib.saveableStructures.StructureIO.CreateElement;
+import lib.saveableStructures.*;
 
 public class SaveableTest {
     
