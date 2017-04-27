@@ -16,6 +16,6 @@ public class RandChar implements RandValue<String>{
 
     @Override
     public String nextValue(Random rand) {
-        return String.valueOf((char)(rand.nextInt(94) + 33));
+        return String.valueOf((char)(rand.nextInt(25) + 65));
     }    
 }

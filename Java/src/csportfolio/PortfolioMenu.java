@@ -12,7 +12,7 @@ package csportfolio;
 import lib.fillListRandom.FillArrayRandomDemo;
 import lib.menuSystem.Menu;
 import lib.neuralNetwork.NeuralNetwork;
-import lib.saveableStructures.test.SaveableTest;
+import lib.saveableStructures.demo.SaveableStructuresDemo;
 
 /**
  *
@@ -50,7 +50,7 @@ public class PortfolioMenu extends Menu{
         };
         
         Action<PortfolioMenu> saveable = (menu) -> {
-            SaveableTest.main(null);
+            SaveableStructuresDemo.main(null);
             menu.setCurrentNode(main);
         };
         

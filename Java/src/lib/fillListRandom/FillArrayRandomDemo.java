@@ -32,7 +32,7 @@ public class FillArrayRandomDemo {
     
     public static void main(String[] args){
         
-        System.out.println("\nThe fillListRandom package demonstrates the use of an API for \n"
+        System.out.println("\nThe fillListRandom package demonstrates the use of a framework for \n"
                          + "generating random instances of anything. It's extremely useful \n"
                          + "for testing generics in data structures to ensure they truly\n"
                          + "work for as many different reference types as possible. \n"
