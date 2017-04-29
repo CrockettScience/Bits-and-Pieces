@@ -12,6 +12,6 @@ LinkedIn: https://www.linkedin.com/in/jonathan-crockett-60b9b169/
 
 Also, please check out another long term personal project of mine,
 
-#RocketSauce
+# RocketSauce
 A sprite based 2d game engine built with LibGDX. 
 Check it out here -> https://github.com/CrockettScience/RocketSauce
