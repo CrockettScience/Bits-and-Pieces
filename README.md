@@ -5,13 +5,13 @@ If you have any questions or would like a resume and work history, feel free to 
 
 Email: johncrockett15@gmail.com
 
-Phone: (805) 835-5943
-
 LinkedIn: https://www.linkedin.com/in/jonathan-crockett-60b9b169/
+
+ReferHire: https://www.referhire.com/users/public?userTkn=Jonathan-521379/
 
 
 Also, please check out another long term personal project of mine,
 
-# RocketSauce
-A sprite based 2d game engine built with LibGDX. 
-Check it out here -> https://github.com/CrockettScience/RocketSauce
+# RSauce
+A sprite based 2d game engine built from scratch. 
+Check it out here -> https://github.com/CrockettScience/RSauce
